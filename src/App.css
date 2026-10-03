@@ -1,0 +1,310 @@
+/*
+  분위기: 군더더기 없는 흑백 위주의 미니멀한 분위기 + 애플 느낌
+  - 회백색(#f5f5f7) 바탕 위에 흰 타일, 그림자 없이 둥근 모서리로만 구분
+  - 색은 흑백만 쓰고, 누를 수 있는 글자에만 파란색을 씀
+  - 가장 눈에 띄는 요소는 첫 화면의 큰 제목 하나뿐
+*/
+
+:root {
+  --ink: #1d1d1f;
+  --ink-sub: #6e6e73;
+  --canvas: #f5f5f7;
+  --tile: #fff;
+  --link: #0066cc;
+  --focus: rgba(0, 113, 227, 0.6);
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  color-scheme: light dark;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Apple SD Gothic Neo', 'Pretendard', 'Segoe UI', 'Malgun Gothic',
+    sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f5f5f7;
+    --ink-sub: #86868b;
+    --canvas: #000;
+    --tile: #1c1c1e;
+    --link: #2997ff;
+    --focus: rgba(41, 151, 255, 0.7);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+#root {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 120px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ───────── 첫 화면 머리말: 이 페이지에서 유일하게 큰 요소 ───────── */
+
+header {
+  padding: 96px 0 64px;
+  text-align: center;
+  animation: hero-in 0.9s var(--ease) both;
+}
+
+header h1 {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+header p {
+  margin-top: 16px;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--ink-sub);
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* 상세 화면에서는 머리말을 작게 접어 글에 자리를 내줌 */
+#root:has(article) header {
+  padding: 28px 0 20px;
+  text-align: left;
+  animation: none;
+}
+
+#root:has(article) header h1 {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+#root:has(article) header p {
+  display: none;
+}
+
+/* ───────── 글 목록 ───────── */
+
+main ul {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+main li button {
+  display: block;
+  width: 100%;
+  padding: 32px 36px;
+  border: 0;
+  border-radius: 22px;
+  background: var(--tile);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.4s var(--ease);
+}
+
+main li button:hover {
+  transform: scale(1.012);
+}
+
+main li button:active {
+  transform: scale(0.995);
+}
+
+main li h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+main li p:nth-of-type(1) {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--ink-sub);
+}
+
+main li p:nth-of-type(2) {
+  display: -webkit-box;
+  margin-top: 14px;
+  overflow: hidden;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* ───────── 글 상세 ───────── */
+
+article {
+  padding: 56px 64px 72px;
+  border-radius: 28px;
+  background: var(--tile);
+  animation: sheet-in 0.5s var(--ease) both;
+}
+
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+article > button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 17px;
+  color: var(--link);
+  cursor: pointer;
+}
+
+article > button::before {
+  content: '‹';
+  margin-right: 6px;
+  font-size: 22px;
+  line-height: 0;
+  vertical-align: -1px;
+}
+
+article > button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+article h2 {
+  margin-top: 40px;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+article h2 + p {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--ink-sub);
+}
+
+article h2 + p ~ p {
+  margin-top: 1.1em;
+  font-size: 19px;
+  line-height: 1.75;
+}
+
+article h2 + p + p {
+  margin-top: 40px;
+}
+
+/* ───────── 움직임 줄이기 설정 존중 ───────── */
+
+@media (prefers-reduced-motion: reduce) {
+  header,
+  article {
+    animation: none;
+  }
+
+  main li button {
+    transition: none;
+  }
+
+  main li button:hover,
+  main li button:active {
+    transform: none;
+  }
+}
+
+/* ───────── 모바일 ───────── */
+
+@media (max-width: 480px) {
+  #root {
+    padding: 0 16px 80px;
+  }
+
+  header {
+    padding: 64px 0 40px;
+  }
+
+  header h1 {
+    font-size: 44px;
+  }
+
+  header p {
+    font-size: 18px;
+  }
+
+  main ul {
+    gap: 12px;
+  }
+
+  main li button {
+    padding: 24px 22px;
+    border-radius: 18px;
+  }
+
+  main li h2 {
+    font-size: 20px;
+  }
+
+  main li p:nth-of-type(2) {
+    font-size: 16px;
+  }
+
+  article {
+    padding: 28px 22px 40px;
+    border-radius: 20px;
+  }
+
+  article h2 {
+    margin-top: 28px;
+    font-size: 30px;
+  }
+
+  article h2 + p ~ p {
+    font-size: 17px;
+  }
+
+  article h2 + p + p {
+    margin-top: 28px;
+  }
+}
