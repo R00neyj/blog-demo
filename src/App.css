@@ -236,11 +236,139 @@ article h2 + p + p {
   margin-top: 40px;
 }
 
+/* ───────── 글쓰기 ───────── */
+
+.write-button {
+  display: block;
+  margin: 0 0 24px auto;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 980px;
+  background: var(--ink);
+  color: var(--canvas);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.write-button:hover {
+  opacity: 0.85;
+}
+
+.post-form {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding: 40px 44px;
+  border-radius: 28px;
+  background: var(--tile);
+  animation: sheet-in 0.5s var(--ease) both;
+}
+
+.post-form h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.post-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-sub);
+}
+
+.post-form input,
+.post-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  border-radius: 12px;
+  background: var(--canvas);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: inherit;
+  color: var(--ink);
+}
+
+.post-form textarea {
+  min-height: 240px;
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.post-form input:focus-visible,
+.post-form textarea:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.post-form input:disabled,
+.post-form textarea:disabled {
+  opacity: 0.6;
+}
+
+.post-form-count {
+  margin-top: -12px;
+  font-size: 13px;
+  text-align: right;
+  color: var(--ink-sub);
+}
+
+.post-form-error {
+  font-size: 15px;
+  color: #d70015;
+}
+
+.post-form-saved {
+  font-size: 15px;
+  color: var(--ink-sub);
+}
+
+.post-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.post-form-actions button {
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 980px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.post-form-actions button[type='button'] {
+  background: none;
+  color: var(--link);
+}
+
+.post-form-actions button[type='submit'] {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.post-form-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (prefers-color-scheme: dark) {
+  .post-form-error {
+    color: #ff6961;
+  }
+}
+
 /* ───────── 움직임 줄이기 설정 존중 ───────── */
 
 @media (prefers-reduced-motion: reduce) {
   header,
-  article {
+  article,
+  .post-form {
     animation: none;
   }
 
@@ -306,5 +434,14 @@ article h2 + p + p {
 
   article h2 + p + p {
     margin-top: 28px;
+  }
+
+  .post-form {
+    padding: 28px 22px 32px;
+    border-radius: 20px;
+  }
+
+  .post-form h2 {
+    font-size: 24px;
   }
 }
