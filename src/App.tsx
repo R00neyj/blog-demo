@@ -44,7 +44,16 @@ function App() {
 
   function renderContent() {
     if (selectedPost) {
-      return <PostDetail post={selectedPost} onBack={() => setSelectedPost(null)} />
+      return (
+        <PostDetail
+          post={selectedPost}
+          onBack={() => setSelectedPost(null)}
+          onDeleted={() => {
+            setSelectedPost(null)
+            setReloadKey((key) => key + 1)
+          }}
+        />
+      )
     }
     return (
       <>

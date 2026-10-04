@@ -11,11 +11,15 @@ type PostFormProps = {
 const TITLE_MAX = 100
 const AUTHOR_MAX = 30
 const CONTENT_MAX = 5000
+// 삭제할 때 확인하는 글 비밀번호
+const PASSWORD_MIN = 4
+const PASSWORD_MAX = 20
 
 function PostForm({ onSaved, onClose }: PostFormProps) {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [content, setContent] = useState('')
+  const [password, setPassword] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isSaved, setIsSaved] = useState(false)
@@ -36,16 +40,25 @@ function PostForm({ onSaved, onClose }: PostFormProps) {
     if (!trimmedTitle) emptyFields.push('제목')
     if (!trimmedAuthor) emptyFields.push('닉네임')
     if (!trimmedContent) emptyFields.push('내용')
+    if (!password) emptyFields.push('비밀번호')
 
     if (emptyFields.length > 0) {
       setErrorMessage(`빈 칸이 있습니다: ${emptyFields.join(', ')}`)
       return
     }
+    if (password.length < PASSWORD_MIN) {
+      setErrorMessage(`비밀번호는 ${PASSWORD_MIN}자 이상 입력해 주세요`)
+      return
+    }
 
     setIsSaving(true)
-    const { error } = await supabase
-      .from('posts')
-      .insert({ title: trimmedTitle, content: trimmedContent, author: trimmedAuthor })
+    // 비밀번호는 DB 함수 안에서 암호화되어 따로 저장됨
+    const { error } = await supabase.rpc('create_post', {
+      p_title: trimmedTitle,
+      p_content: trimmedContent,
+      p_author: trimmedAuthor,
+      p_password: password,
+    })
     setIsSaving(false)
 
     if (error) {
@@ -56,6 +69,7 @@ function PostForm({ onSaved, onClose }: PostFormProps) {
     setTitle('')
     setAuthor('')
     setContent('')
+    setPassword('')
     setIsSaved(true)
     onSaved()
   }
@@ -99,6 +113,18 @@ function PostForm({ onSaved, onClose }: PostFormProps) {
       <p className="post-form-count">
         {content.length} / {CONTENT_MAX}
       </p>
+
+      <label>
+        비밀번호 ({PASSWORD_MIN}~{PASSWORD_MAX}자, 글을 지울 때 필요)
+        <input
+          type="password"
+          value={password}
+          maxLength={PASSWORD_MAX}
+          autoComplete="new-password"
+          disabled={isSaving}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </label>
 
       {errorMessage && (
         <p className="post-form-error" role="alert">

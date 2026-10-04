@@ -363,6 +363,101 @@ article h2 + p + p {
   }
 }
 
+/* ───────── 글 삭제 ───────── */
+
+.post-delete {
+  --danger: #d70015;
+
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.post-delete button {
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 980px;
+  background: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--danger);
+  cursor: pointer;
+}
+
+.post-delete > button {
+  padding: 0;
+}
+
+.post-delete > button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.post-delete form {
+  display: grid;
+  gap: 12px;
+  max-width: 320px;
+}
+
+.post-delete label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-sub);
+}
+
+.post-delete input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  border-radius: 12px;
+  background: var(--canvas);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.post-delete input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.post-delete p {
+  font-size: 15px;
+  color: var(--danger);
+}
+
+.post-delete-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.post-delete-actions button[type='button'] {
+  color: var(--link);
+}
+
+.post-delete-actions button[type='submit'] {
+  background: var(--danger);
+  color: #fff;
+}
+
+.post-delete button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (prefers-color-scheme: dark) {
+  .post-delete {
+    --danger: #ff6961;
+  }
+
+  .post-delete-actions button[type='submit'] {
+    color: #000;
+  }
+}
+
 /* ───────── 움직임 줄이기 설정 존중 ───────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -443,5 +538,9 @@ article h2 + p + p {
 
   .post-form h2 {
     font-size: 24px;
+  }
+
+  .post-delete {
+    margin-top: 40px;
   }
 }
